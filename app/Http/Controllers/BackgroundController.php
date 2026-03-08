@@ -22,7 +22,9 @@ class BackgroundController extends Controller
         $serie = $this->favorites->getRandomBackground();
 
         if (! $serie) {
-            return response()->json(['error' => 'No favorites with fanart found'], 404);
+            // No background candidates yet (e.g. fresh install with no favorites).
+            // Return 204 so clients can treat this as "nothing to rotate" instead of an error.
+            return response()->noContent();
         }
 
         return response()->json([

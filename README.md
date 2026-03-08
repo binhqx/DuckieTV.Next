@@ -254,6 +254,26 @@ DuckieTV.Next/
 
 ## Getting Started
 
+### Docker Quick Start (Recommended)
+
+If your goal is fast local setup and easy iteration, use Docker first.
+
+```bash
+# Clone your fork (recommended for ongoing development)
+git clone https://github.com/<your-user>/DuckieTV.Next.git
+cd DuckieTV.Next
+
+# Start app + queue worker
+docker compose up -d --build
+
+# Open app
+open http://127.0.0.1:8000
+```
+
+Detailed Docker workflow, troubleshooting, and fork/upstream sync:
+
+- [`docs/docker-dev.md`](docs/docker-dev.md)
+
 ### Prerequisites
 
 - **PHP 8.4+** with SQLite extension

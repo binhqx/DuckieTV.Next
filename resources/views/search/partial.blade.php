@@ -10,13 +10,13 @@
         <div class="filtertools">
             <div class="row">
                 <div class="col col-md-10">
-                    <form id="search-form" onsubmit="window.Panels.show('seriesadding', '{{ route('search.query') }}?q=' + this.q.value); return false;">
+                    <form id="search-form" onsubmit="window.Panels.show('seriesadding', '{{ route('search.query') }}?q=' + encodeURIComponent(this.q.value)); return false;">
                         <div class="input-group pull-left">
                             <span class="input-group-addon">
                                 <i style='font-size:15px;' class="glyphicon glyphicon-search"></i>
                             </span>
                             <input type="text" name="q" value="{{ $query ?? '' }}" 
-                                   placeholder="{{ __('SERIESLIST/TRAKT-SEARCHING/please-wait/lbl') }}"
+                                   placeholder="{{ __('SERIESLIST/TOOLS/ADDING/addshow-type-series-name/placeholder') }}"
                                    style="width:100%"
                                    id="search-input">
                         </div>

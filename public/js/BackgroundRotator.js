@@ -34,9 +34,11 @@ class BackgroundRotator {
     async rotateBackground() {
         try {
             const response = await fetch(this.route);
+            if (response.status === 204) return;
             if (!response.ok) return;
 
             const data = await response.json();
+            if (!data || !data.fanart) return;
             const img = new Image();
 
             img.onload = () => {

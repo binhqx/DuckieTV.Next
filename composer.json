@@ -58,6 +58,43 @@
             "Composer\\Config::disableProcessTimeout",
             "npx concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen --tries=1 --timeout=0\" \"php artisan pail --timeout=0\" \"npm run dev\" --names=server,queue,logs,vite --kill-others"
         ],
+        "native:run": [
+            "Composer\\Config::disableProcessTimeout",
+            "\"${NATIVEPHP_DEV_PHP_BIN:-/opt/homebrew/opt/php@8.4/bin/php}\" artisan native:run"
+        ],
+        "native:run:headless": [
+            "Composer\\Config::disableProcessTimeout",
+            "\"${NATIVEPHP_DEV_PHP_BIN:-/opt/homebrew/opt/php@8.4/bin/php}\" artisan native:run --no-interaction"
+        ],
+        "native:update": [
+            "composer update nativephp/desktop nativephp/php-bin --with-all-dependencies",
+            "@php artisan native:install --force --quiet"
+        ],
+        "docker:build": [
+            "docker compose build"
+        ],
+        "docker:up": [
+            "docker compose up -d"
+        ],
+        "docker:down": [
+            "docker compose down"
+        ],
+        "docker:logs": [
+            "docker compose logs -f --tail=200"
+        ],
+        "docker:restart": [
+            "docker compose down",
+            "docker compose up -d"
+        ],
+        "docker:reset": [
+            "docker compose down -v --remove-orphans",
+            "docker compose up -d --build"
+        ],
+        "docker:update": [
+            "docker compose pull --ignore-pull-failures",
+            "docker compose build --pull",
+            "docker compose up -d"
+        ],
         "test": [
             "@php artisan config:clear --ansi",
             "@php artisan test"
@@ -83,7 +120,7 @@
         ],
         "native:dev": [
             "Composer\\Config::disableProcessTimeout",
-            "npx concurrently -k -c \"#93c5fd,#c4b5fd\" \"php artisan native:run --no-interaction\" \"npm run dev\" --names=app,vite"
+            "npx concurrently -k -c \"#93c5fd,#c4b5fd\" \"\\\"${NATIVEPHP_DEV_PHP_BIN:-/opt/homebrew/opt/php@8.4/bin/php}\\\" artisan native:run --no-interaction\" \"npm run dev\" --names=app,vite"
         ]
     },
     "extra": {
