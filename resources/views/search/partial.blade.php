@@ -62,14 +62,30 @@
 
         <div class="series-grid">
             @forelse($results as $show)
-                @include('partials._serie_header', [
-                    'show' => $show, 
-                    'isFavorite' => in_array($show['trakt_id'] ?? null, $favoriteIds ?? []),
+                @component('partials._serie_header', [
+                    'show' => $show,
                     'noBadge' => true,
                     'noOverview' => true,
                     'noTitle' => true,
                     'mode' => 'poster'
                 ])
+                    @if(in_array($show['trakt_id'] ?? null, $favoriteIds ?? []))
+                        <em class="earmark"><i class="glyphicon glyphicon-ok"></i></em>
+                    @else
+                        <form action="{{ route('search.add') }}" method="POST" style="display:inline;">
+                            @csrf
+                            <input type="hidden" name="trakt_id" value="{{ $show['trakt_id'] ?? '' }}">
+                            <em class="earmark add" onclick="this.parentElement.submit()" title="{{ __('COMMON/add-to-favorites/tooltip') }}">
+                                <i class="glyphicon glyphicon-plus"></i>
+                            </em>
+                        </form>
+                    @endif
+                    <em class="earmark trailer">
+                        <a href="{{ $show['trailer'] ?? 'https://www.youtube.com/results?search_query=' . urlencode($show['name'] ?? '') . '+official+trailer' }}" target="_blank" title="{{ __('COMMON/watch-trailer/tooltip') }}">
+                            <i class="glyphicon glyphicon-facetime-video"></i>
+                        </a>
+                    </em>
+                @endcomponent
             @empty
                 <div style="padding: 20px; color: white; text-align: center;">
                     <h3>{{ __('SERIESLIST/TRAKT-SEARCHING/no-results/lbl') }}</h3>
