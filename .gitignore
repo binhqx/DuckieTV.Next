@@ -28,6 +28,7 @@ storage/nativephp/
 database/e2e.sqlite
 test-results/
 playwright-report/
+reference/
 .agent/
 nativephp
 .antigravity
