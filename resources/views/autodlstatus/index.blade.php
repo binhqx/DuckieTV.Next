@@ -72,16 +72,16 @@
                     </td>
                     <td>
                         @switch($activity->status)
-                            @case(0) <span class="text-muted">AutoDL Disabled</span> @break
-                            @case(1) <span class="status-warning">Nothing Found</span> @break
-                            @case(2) <span class="text-muted">Filtered Out</span> @break
-                            @case(3) <span class="status-warning">Not Enough Seeders</span> @break
-                            @case(4) <span class="status-info">On Air Delay</span> @break
-                            @case(5) <span class="text-muted">Searching...</span> @break
-                            @case(6) <span class="status-success"><strong>Has Magnet</strong></span> @break
-                            @case(7) <span class="status-danger">TVDB ID Missing</span> @break
-                            @case(8) <span class="status-success">Download Initiated</span> @break
-                            @case(9) <span class="status-success">Download Success</span> @break
+                            @case(0) <span class="text-muted">Already Downloaded</span> @break
+                            @case(1) <span class="text-muted">Already Watched</span> @break
+                            @case(2) <span class="status-info">Has Magnet</span> @break
+                            @case(3) <span class="text-muted">AutoDL Disabled</span> @break
+                            @case(4) <span class="status-warning">Nothing Found</span> @break
+                            @case(5) <span class="status-warning">Filtered Out</span> @break
+                            @case(6) <span class="status-success"><strong>Download Initiated</strong></span> @break
+                            @case(7) <span class="status-danger">Not Enough Seeders</span> @break
+                            @case(8) <span class="status-info">On Air Delay</span> @break
+                            @case(9) <span class="status-danger">TVDB ID Missing</span> @break
                             @default {{ $activity->status }}
                         @endswitch
                         @if($activity->extra)

@@ -32,6 +32,19 @@ services:
       - duckietv_storage:/app/storage
     command: php artisan queue:listen --tries=1 --timeout=0
 
+  scheduler:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      <<: *duckie_env
+    depends_on:
+      - app
+    volumes:
+      - duckietv_data:/data
+      - duckietv_storage:/app/storage
+    command: php artisan schedule:work
+
 volumes:
   duckietv_data:
   duckietv_storage:

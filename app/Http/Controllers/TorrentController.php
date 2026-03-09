@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\TorrentDetailsRequest;
 use App\Http\Requests\TorrentDialogRequest;
 use App\Http\Requests\TorrentSearchRequest;
+use App\Support\E2ETestMode;
 use App\Services\SettingsService;
 use App\Services\TorrentSearchService;
 use Exception;
@@ -104,6 +105,18 @@ class TorrentController extends Controller
         $engine = $request->validated('engine');
         $sortBy = $request->validated('sortBy') ?? 'seeders.d';
 
+        if (E2ETestMode::enabled($request)) {
+            $results = $this->fakeE2ESearchResults($query, $engine);
+            $html = view('torrents.results', ['results' => $results])->render();
+
+            return response()->json([
+                'results' => $results,
+                'html' => $html,
+                'engine' => $engine ?? $this->settings->get('torrenting.searchprovider', self::DEFAULT_ENGINE),
+                'query' => $query,
+            ]);
+        }
+
         try {
             $results = $this->searchService->search($query, $engine, $sortBy);
 
@@ -138,6 +151,13 @@ class TorrentController extends Controller
      */
     public function details(TorrentDetailsRequest $request): JsonResponse
     {
+        if (E2ETestMode::enabled($request)) {
+            return response()->json($this->fakeE2EDetails(
+                $request->validated('releasename'),
+                $request->validated('engine')
+            ));
+        }
+
         try {
             $engine = $this->searchService->getSearchEngine($request->validated('engine'));
             $details = $engine->getDetails(
@@ -464,5 +484,38 @@ class TorrentController extends Controller
         } catch (Exception $e) {
             return response()->json(['error' => $e->getMessage()], 500);
         }
+    }
+
+    private function fakeE2ESearchResults(string $query, ?string $engine): array
+    {
+        $engine ??= $this->settings->get('torrenting.searchprovider', self::DEFAULT_ENGINE);
+        $normalized = strtolower($query);
+
+        if (str_contains($normalized, 'strange new worlds')) {
+            return [[
+                'engine' => $engine,
+                'releasename' => 'Star Trek Strange New Worlds S01E01 1080p WEB-DL',
+                'size' => '1.0 GB',
+                'seeders' => 150,
+                'leechers' => 12,
+                'magnetUrl' => 'magnet:?xt=urn:btih:FAKEHASH1234567890FAKEHASH1234567890FAKE&dn=Star+Trek+Strange+New+Worlds+S01E01+1080p+WEB-DL',
+                'torrentUrl' => null,
+                'detailUrl' => 'https://example.test/torrents/strange-new-worlds-s01e01',
+                'infoHash' => 'FAKEHASH1234567890FAKEHASH1234567890FAKE',
+            ]];
+        }
+
+        return [];
+    }
+
+    private function fakeE2EDetails(string $releaseName, ?string $engine): array
+    {
+        return [
+            'engine' => $engine ?? $this->settings->get('torrenting.searchprovider', self::DEFAULT_ENGINE),
+            'releasename' => $releaseName,
+            'magnetUrl' => 'magnet:?xt=urn:btih:FAKEHASH1234567890FAKEHASH1234567890FAKE&dn='.rawurlencode($releaseName),
+            'torrentUrl' => 'https://example.test/torrents/fake-download.torrent',
+            'infoHash' => 'FAKEHASH1234567890FAKEHASH1234567890FAKE',
+        ];
     }
 }

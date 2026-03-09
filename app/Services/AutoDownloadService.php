@@ -142,8 +142,8 @@ class AutoDownloadService
             }
         }
 
-        $periodDays = (int) $this->settings->get('autodownload.period', 1);
-        $from = $this->getLastRun() ?? now()->subDays($periodDays);
+        $periodHours = max(1, (int) $this->settings->get('autodownload.period', 1));
+        $from = $this->getLastRun() ?? now()->subHours($periodHours);
         $to = now();
 
         // Get episodes that have aired since period

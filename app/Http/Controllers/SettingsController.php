@@ -2,10 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Episode;
+use App\Models\Season;
+use App\Models\Serie;
+use App\Models\Setting;
 use App\Http\Requests\Settings\ShowSettingsRequest;
 use App\Services\TorrentClientService;
 use App\Services\TranslationService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Illuminate\View\View;
 
 class SettingsController extends Controller
@@ -131,7 +137,8 @@ class SettingsController extends Controller
         $rawData = $request->all();
         foreach ($rules as $key => $rule) {
             if ($rule === 'boolean' || (is_array($rule) && in_array('boolean', $rule))) {
-                if (! \Illuminate\Support\Arr::has($validated, $key)) {
+                $hasValidatedKey = \Illuminate\Support\Arr::has($validated, $key) || array_key_exists($key, $validated);
+                if (! $hasValidatedKey) {
                     $prefix = str_contains($key, '.') ? explode('.', $key)[0] : $key;
                     // Check if there are other fields in the same configuration group present
                     $otherFieldsInGroup = collect($rawData)->keys()
@@ -200,10 +207,15 @@ class SettingsController extends Controller
                 ], 422);
             }
 
-            // Optional: Wipe database logic here if requested
             if ($request->boolean('wipe')) {
-                // TODO: Implement wipe logic (Series::truncate(), Episode::truncate(), etc.)
-                // For now, we just proceed with restore which upserts/overwrites.
+                DB::transaction(function () {
+                    Episode::query()->delete();
+                    Season::query()->delete();
+                    Serie::query()->delete();
+                    Setting::query()->delete();
+                });
+
+                Cache::forget('backup_progress');
             }
 
             // Delegate to BackupService via Job for async processing

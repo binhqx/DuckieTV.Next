@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Support\E2ETestMode;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
 
@@ -75,6 +76,10 @@ class TMDBService
     {
         if (! $path) {
             return null;
+        }
+
+        if (E2ETestMode::enabled()) {
+            return asset('img/torrentclients/transmission-colored.png');
         }
 
         return self::IMAGE_BASE.$size.$path;
