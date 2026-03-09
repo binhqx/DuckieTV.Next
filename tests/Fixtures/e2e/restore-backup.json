@@ -1,0 +1,9 @@
+{
+  "settings": {
+    "torrenting.enabled": true,
+    "torrenting.client": "Transmission"
+  },
+  "series": {
+    "1002": []
+  }
+}
