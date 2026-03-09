@@ -9,7 +9,8 @@
 /.idea
 /.nova
 /.phpunit.cache
-/.vscode
+/.vscode/*
+!/.vscode/mcp.json
 /.zed
 /auth.json
 /node_modules
@@ -24,6 +25,9 @@ Homestead.yaml
 Thumbs.db
 DuckieTV-angular/
 storage/nativephp/
+database/e2e.sqlite
+test-results/
+playwright-report/
 .agent/
 nativephp
 .antigravity

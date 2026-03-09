@@ -3,9 +3,14 @@
     "private": true,
     "type": "module",
     "scripts": {
-        "dev": "concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen\""
+        "dev": "concurrently -c \"#93c5fd,#c4b5fd,#fb7185,#fdba74\" \"php artisan serve\" \"php artisan queue:listen\"",
+        "test:e2e:agents:init": "playwright init-agents --loop=vscode",
+        "test:e2e": "playwright test",
+        "test:e2e:headed": "playwright test --headed",
+        "test:e2e:install": "playwright install chromium"
     },
     "devDependencies": {
+        "@playwright/test": "^1.52.0",
         "concurrently": "^9.0.1",
         "laravel-echo": "^2.3.0",
         "pusher-js": "^8.4.0",

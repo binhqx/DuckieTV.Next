@@ -46,6 +46,48 @@ Then verify favorites:
 4. Confirm torrent client health:
    - `curl -sS http://127.0.0.1:8000/torrents/status`
 
+## Playwright E2E Workflow
+
+- Primary config: `playwright.config.mjs`
+- Seed file: `e2e/seed.spec.ts`
+- Test plan directory: `specs/`
+- Browser tests directory: `e2e/`
+
+For browser-driven E2E work, do not hit real external APIs. Use the isolated local server and the E2E header mode:
+
+1. Start the isolated server:
+   - `cd ~/Developer/DuckieTV.Next && bash ./scripts/e2e-server.sh`
+2. The E2E server runs at:
+   - `http://127.0.0.1:8010`
+3. The config injects:
+   - `X-DuckieTV-E2E: 1`
+4. That header enables Laravel-side HTTP fakes via:
+   - `App\Http\Middleware\EnableE2EFakes`
+   - `App\Support\E2EHttpFakes`
+5. Run browser tests with:
+   - `cd ~/Developer/DuckieTV.Next && npm run test:e2e`
+
+Guardrails:
+
+- Do not write plans or tests that rely on live Trakt, TMDB, or Transmission access unless the user explicitly asks for live integration coverage.
+- If an E2E page starts failing with empty panels or load errors, check the fake mappings before changing selectors.
+- Keep tests isolated and restartable; assume a fresh `database/e2e.sqlite`.
+
+### E2E Test Writing Style
+
+Use `AAA` structure for Playwright tests:
+
+- `Arrange`: explain the user starting state and setup
+- `Act`: explain the user action
+- `Assert`: explain what the user expects to see
+
+Rules:
+
+- Prefer short comments that describe user intent, not framework mechanics.
+- Explain the user goal and expected outcome, not low-level selector details.
+- Keep one main user outcome per test where practical.
+- Use the same `AAA` shape for both handwritten tests and generated tests.
+
 ## Security and Secrets
 
 - Never commit credentials, tokens, API keys, personal IPs, or local passwords.
@@ -58,4 +100,3 @@ Then verify favorites:
 - If asked to commit and last commit is not pushed, prefer `git commit --amend`.
 - If already pushed, create a new commit.
 - Keep Docker/dev-experience changes documented in `README.md` and `docs/docker-dev.md`.
-

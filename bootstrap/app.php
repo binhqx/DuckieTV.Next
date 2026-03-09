@@ -22,6 +22,7 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware): void {
         $middleware->web(append: [
+            \App\Http\Middleware\EnableE2EFakes::class,
             \App\Http\Middleware\SetLocale::class,
         ]);
     })
