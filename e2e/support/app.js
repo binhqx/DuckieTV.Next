@@ -47,6 +47,12 @@ export async function openFavoriteShow(page, title) {
   await expect(page.getByText('LAST EPISODE')).toBeVisible();
 }
 
+export async function openFavoriteEpisodes(page, title) {
+  await openFavoriteShow(page, title);
+  await page.getByText('EPISODES', { exact: true }).click();
+  await expect(page.locator('sidepanel .rightpanel')).toContainText('EPISODES');
+}
+
 export async function openSettings(page) {
   await page.locator('#actionbar_settings a').click();
   await expect(page.getByText('SETTINGS')).toBeVisible();
