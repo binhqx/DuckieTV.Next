@@ -1,3 +1,7 @@
+@php
+    $metaTranslator = app(\App\Services\SeriesMetaTranslations::class);
+    $translatedDay = $serie->airs_dayofweek ? $metaTranslator->translateDayOfWeek($serie->airs_dayofweek) : null;
+@endphp
 {{--
     Series Overview — Left Panel
 
@@ -132,10 +136,10 @@
         @if(settings('torrenting.enabled'))
             <tr>
                 <td colspan="2">
-                    <a href="javascript:void(0)" onclick="document.getElementById('toggle-autodownload-form').submit()">
+                    <a href="javascript:void(0)"
+                       onclick="fetch('{{ route('series.update', $serie->id) }}',{method:'PATCH',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':document.querySelector('meta[name=&quot;csrf-token&quot;]').getAttribute('content'),'X-Requested-With':'XMLHttpRequest','Accept':'application/json'},body:JSON.stringify({action:'toggle_autodownload'})}).then(() => window.SidePanel && window.SidePanel.update('{{ route('series.show', $serie->id) }}')).then(() => window.Toast && window.Toast.success('Auto-download updated')).catch(() => window.Toast && window.Toast.error('Failed to update auto-download')); return false;">
                         <i class="glyphicon {{ $serie->autoDownload ? 'glyphicon-cloud-download' : 'glyphicon-cloud' }}" style="{{ $serie->autoDownload ? 'color:green' : 'color:white' }}"></i>
                         <strong>AUTO-DOWNLOAD: {{ $serie->autoDownload ? 'ENABLED' : 'DISABLED' }}</strong>
-                        <form id="toggle-autodownload-form" method="POST" action="{{ route('series.update', $serie->id) }}" style="display:none;">@csrf @method('PATCH')<input type="hidden" name="action" value="toggle_autodownload"></form>
                     </a>
                 </td>
             </tr>
@@ -154,10 +158,10 @@
         {{-- Row 6: Calendar Hide/Show (full width) --}}
         <tr>
             <td colspan="2">
-                <a href="javascript:void(0)" onclick="document.getElementById('toggle-calendar-form').submit()">
-                    <i class="glyphicon {{ $serie->displaycalendar ? 'glyphicon-eye-close' : 'glyphicon-eye-open' }}"></i>
+                <a href="javascript:void(0)"
+                   onclick="fetch('{{ route('series.update', $serie->id) }}',{method:'PATCH',headers:{'Content-Type':'application/json','X-CSRF-TOKEN':document.querySelector('meta[name=&quot;csrf-token&quot;]').getAttribute('content'),'X-Requested-With':'XMLHttpRequest','Accept':'application/json'},body:JSON.stringify({action:'toggle_calendar'})}).then(() => window.SidePanel && window.SidePanel.update('{{ route('series.show', $serie->id) }}')).then(() => window.Toast && window.Toast.success('Calendar visibility updated')).catch(() => window.Toast && window.Toast.error('Failed to update calendar visibility')); return false;">
+                    <i class="glyphicon {{ $serie->displaycalendar ? 'glyphicon-ban-circle' : 'glyphicon-ok-circle' }}"></i>
                     <strong>{{ $serie->displaycalendar ? 'HIDE FROM CALENDAR' : 'SHOW ON CALENDAR' }}</strong>
-                    <form id="toggle-calendar-form" method="POST" action="{{ route('series.update', $serie->id) }}" style="display:none;">@csrf @method('PATCH')<input type="hidden" name="action" value="toggle_calendar"></form>
                 </a>
             </td>
         </tr>
@@ -167,7 +171,7 @@
             <tr>
                 <td colspan="2">
                     <a class="torrent-settings" href="javascript:void(0)" onclick="window.SidePanel.torrentSettings({{ $serie->id }})">
-                        <i class="glyphicon glyphicon-cog"></i> <strong>SETTINGS {{ $serie->name }}</strong>
+                        <i class="glyphicon glyphicon-cog"></i> <strong>SETTINGS {{ strtoupper($serie->name) }}</strong>
                     </a>
                 </td>
             </tr>

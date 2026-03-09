@@ -44,6 +44,18 @@ class Panels {
         const seriesList = document.querySelector('series-list');
         if (seriesList) {
             seriesList.addEventListener('click', (e) => {
+                const sidepanelTrigger = e.target.closest('[data-sidepanel-show]');
+                if (sidepanelTrigger && window.SidePanel) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    const url = sidepanelTrigger.dataset.sidepanelShow || sidepanelTrigger.getAttribute('href');
+                    if (url) {
+                        window.SidePanelTriggerUrl = url;
+                        window.SidePanel.show(url);
+                    }
+                    return;
+                }
+
                 if (e.target.dataset.toggle === 'dropdown') {
                     e.preventDefault();
                     const parent = e.target.parentElement;

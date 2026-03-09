@@ -6,7 +6,7 @@
      * @var bool $noOverview
      * @var string $mode (poster, list, etc)
      */
-    $isModel = $show instanceof \App\Models\Show;
+    $isModel = $show instanceof \App\Models\Serie;
     $id = $isModel ? $show->id : ($show['trakt_id'] ?? $show['id'] ?? null);
     $name = $isModel ? $show->name : ($show['name'] ?? '');
     $poster = $isModel ? $show->poster : ($show['poster'] ?? '');
@@ -17,8 +17,8 @@
     $genres = $isModel ? (str_replace('|', ' ', strtolower($show->genre ?? ''))) : (implode(' ', array_map('strtolower', $show['genres'] ?? [])));
     $status = strtolower($isModel ? ($show->status ?? '') : ($show['status'] ?? ''));
 
-    // Uniform trigger for details. For search results, we point to the search detail which might eventually become a show page.
-    $detailsUrl = $isModel ? route('series.show', $id) : route('search.index') . '/?trakt_id=' . $id; 
+    // Library tiles open saved-series details. Search/trending tiles open a Trakt summary sidepanel.
+    $detailsUrl = $isModel ? route('series.show', $id) : route('search.show', $id);
 @endphp
 
 <serieheader 

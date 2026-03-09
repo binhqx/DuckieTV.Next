@@ -1,3 +1,12 @@
+@php
+    $metaTranslator = app(\App\Services\SeriesMetaTranslations::class);
+    $translatedDay = $serie->airs_dayofweek ? $metaTranslator->translateDayOfWeek($serie->airs_dayofweek) : null;
+    $translatedStatus = $serie->status ? $metaTranslator->translateStatus($serie->status) : null;
+    $translatedGenres = collect(explode('|', (string) $serie->genre))
+        ->filter()
+        ->map(fn ($genre) => $metaTranslator->translateGenre($genre))
+        ->values();
+@endphp
 <div class="serie-overview" style="color:black">
     <button type="button" class="close" data-sidepanel-show="{{ route('series.show', $serie->id) }}" title="Back to overview">&times;</button>
     <div class="serie-img poster large" style="background-image: url('{{ $serie->poster }}');">
@@ -28,24 +37,24 @@
             <tr>
                 <th>LINKS</th>
                 <td>
-                    <a style="text-decoration: underline" href="https://www.google.com/search?q={{ urlencode($serie->name) }} (TV series)+Wikipedia&btnI=745" target="_blank">Wikipedia</a><strong> | </strong>
+                    <a style="text-decoration: underline" href="https://www.google.com/search?q={{ urlencode($serie->name) }} (TV series)+Wikipedia&btnI=745" target="_blank" rel="noreferrer">Wikipedia</a><strong> | </strong>
                     @if($serie->imdb_id)
-                        <a style="text-decoration: underline" href="https://www.imdb.com/title/{{ $serie->imdb_id }}" target="_blank">IMDB</a><strong> | </strong>
+                        <a style="text-decoration: underline" href="https://www.imdb.com/title/{{ $serie->imdb_id }}" target="_blank" rel="noreferrer">IMDB</a><strong> | </strong>
                     @endif
                     @if($serie->tmdb_id)
-                        <a style="text-decoration: underline" href="https://www.themoviedb.org/tv/{{ $serie->tmdb_id }}" target="_blank">TMDB</a><strong> | </strong>
+                        <a style="text-decoration: underline" href="https://www.themoviedb.org/tv/{{ $serie->tmdb_id }}" target="_blank" rel="noreferrer">TMDB</a><strong> | </strong>
                     @endif
                     @if($serie->tvdb_id)
-                        <a style="text-decoration: underline" href="https://thetvdb.com/?tab=series&id={{ $serie->tvdb_id }}" target="_blank">TVDB</a><strong> | </strong>
+                        <a style="text-decoration: underline" href="https://thetvdb.com/?tab=series&id={{ $serie->tvdb_id }}" target="_blank" rel="noreferrer">TVDB</a><strong> | </strong>
                     @endif
                     @if($serie->trakt_id)
-                        <a style="text-decoration: underline" href="https://www.trakt.tv/shows/{{ $serie->trakt_id }}" target="_blank">Trakt</a>
+                        <a style="text-decoration: underline" href="https://www.trakt.tv/shows/{{ $serie->trakt_id }}" target="_blank" rel="noreferrer">Trakt</a>
                     @endif
                 </td>
             </tr>
             <tr>
                 <th>AIRS ON</th>
-                <td>{{ $serie->airs_dayofweek }} {{ $serie->airs_time }} {{ $serie->timezone }}</td>
+                <td>{{ $translatedDay ?? $serie->airs_dayofweek }} {{ $serie->airs_time }} {{ $serie->timezone }}</td>
             </tr>
             <tr>
                 <th>FIRST AIRED</th>
@@ -55,8 +64,8 @@
                 <th>GENRE</th>
                 <td>
                     <ul class="list-unstyled">
-                        @foreach(explode('|', $serie->genre) as $genre)
-                            @if($genre) <li>{{ $genre }}</li> @endif
+                        @foreach($translatedGenres as $genre)
+                            <li>{{ $genre }}</li>
                         @endforeach
                     </ul>
                 </td>
@@ -85,7 +94,7 @@
             </tr>
             <tr>
                 <th>STATUS</th>
-                <td>{{ strtoupper($serie->status) }}</td>
+                <td>{{ $translatedStatus ?? strtoupper((string) $serie->status) }}</td>
             </tr>
             @if($serie->actors)
             <tr>

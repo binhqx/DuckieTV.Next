@@ -1,0 +1,344 @@
+{
+  "trakt": {
+    "search": {
+      "default": [
+        {
+          "show": {
+            "title": "Star Trek: Strange New Worlds",
+            "overview": "Captain Pike explores new worlds with the Enterprise crew.",
+            "network": "Paramount+",
+            "status": "returning series",
+            "country": "us",
+            "language": "en",
+            "runtime": 54,
+            "first_aired": "2022-05-05T00:00:00.000Z",
+            "rating": 8.4,
+            "votes": 4200,
+            "genres": ["science-fiction", "adventure"],
+            "updated_at": "2026-03-01T00:00:00.000Z",
+            "trailer": "https://example.test/trailer/strange-new-worlds",
+            "poster": "/img/torrentclients/transmission-colored.png",
+            "airs": {
+              "day": "Thursday",
+              "time": "03:00",
+              "timezone": "America/Los_Angeles"
+            },
+            "ids": {
+              "trakt": 1001,
+              "tvdb": 382389,
+              "tmdb": 2001,
+              "imdb": "tt12327578",
+              "tvrage": null
+            }
+          }
+        }
+      ],
+      "strange": [
+        {
+          "show": {
+            "title": "Star Trek: Strange New Worlds",
+            "overview": "Captain Pike explores new worlds with the Enterprise crew.",
+            "network": "Paramount+",
+            "status": "returning series",
+            "country": "us",
+            "language": "en",
+            "runtime": 54,
+            "first_aired": "2022-05-05T00:00:00.000Z",
+            "rating": 8.4,
+            "votes": 4200,
+            "genres": ["science-fiction", "adventure"],
+            "updated_at": "2026-03-01T00:00:00.000Z",
+            "trailer": "https://example.test/trailer/strange-new-worlds",
+            "poster": "/img/torrentclients/transmission-colored.png",
+            "airs": {
+              "day": "Thursday",
+              "time": "03:00",
+              "timezone": "America/Los_Angeles"
+            },
+            "ids": {
+              "trakt": 1001,
+              "tvdb": 382389,
+              "tmdb": 2001,
+              "imdb": "tt12327578",
+              "tvrage": null
+            }
+          }
+        }
+      ],
+      "academy": [
+        {
+          "show": {
+            "title": "Star Trek: Starfleet Academy",
+            "overview": "Cadets train for the future of Starfleet.",
+            "network": "Paramount+",
+            "status": "in production",
+            "country": "us",
+            "language": "en",
+            "runtime": 50,
+            "first_aired": "2026-01-15T00:00:00.000Z",
+            "rating": 7.8,
+            "votes": 1200,
+            "genres": ["science-fiction", "drama"],
+            "updated_at": "2026-03-01T00:00:00.000Z",
+            "trailer": "https://example.test/trailer/starfleet-academy",
+            "poster": "/img/torrentclients/transmission-colored.png",
+            "airs": {
+              "day": "Wednesday",
+              "time": "03:00",
+              "timezone": "America/Los_Angeles"
+            },
+            "ids": {
+              "trakt": 1002,
+              "tvdb": 450001,
+              "tmdb": 2002,
+              "imdb": "tt31882210",
+              "tvrage": null
+            }
+          }
+        }
+      ]
+    },
+    "trending": [
+      {
+        "show": {
+          "title": "Star Trek: Strange New Worlds",
+          "overview": "Captain Pike explores new worlds with the Enterprise crew.",
+          "network": "Paramount+",
+          "status": "returning series",
+          "country": "us",
+          "language": "en",
+          "runtime": 54,
+          "first_aired": "2022-05-05T00:00:00.000Z",
+          "rating": 8.4,
+          "votes": 4200,
+          "genres": ["science-fiction", "adventure"],
+          "updated_at": "2026-03-01T00:00:00.000Z",
+          "trailer": "https://example.test/trailer/strange-new-worlds",
+          "poster": "/img/torrentclients/transmission-colored.png",
+          "airs": {
+            "day": "Thursday",
+            "time": "03:00",
+            "timezone": "America/Los_Angeles"
+          },
+          "ids": {
+            "trakt": 1001,
+            "tvdb": 382389,
+            "tmdb": 2001,
+            "imdb": "tt12327578",
+            "tvrage": null
+          }
+        }
+      }
+    ],
+    "shows": {
+      "1001": {
+        "title": "Star Trek: Strange New Worlds",
+        "overview": "Captain Pike explores new worlds with the Enterprise crew.",
+        "network": "Paramount+",
+        "status": "returning series",
+        "certification": "TV-14",
+        "country": "us",
+        "language": "en",
+        "runtime": 54,
+        "first_aired": "2022-05-05T00:00:00.000Z",
+        "rating": 8.4,
+        "votes": 4200,
+        "genres": ["science-fiction", "adventure"],
+        "updated_at": "2026-03-01T00:00:00.000Z",
+        "trailer": "https://example.test/trailer/strange-new-worlds",
+        "airs": {
+          "day": "Thursday",
+          "time": "03:00",
+          "timezone": "America/Los_Angeles"
+        },
+        "ids": {
+          "trakt": 1001,
+          "tvdb": 382389,
+          "tmdb": 2001,
+          "imdb": "tt12327578",
+          "tvrage": null
+        }
+      },
+      "1002": {
+        "title": "Star Trek: Starfleet Academy",
+        "overview": "Cadets train for the future of Starfleet.",
+        "network": "Paramount+",
+        "status": "in production",
+        "certification": "TV-14",
+        "country": "us",
+        "language": "en",
+        "runtime": 50,
+        "first_aired": "2026-01-15T00:00:00.000Z",
+        "rating": 7.8,
+        "votes": 1200,
+        "genres": ["science-fiction", "drama"],
+        "updated_at": "2026-03-01T00:00:00.000Z",
+        "trailer": "https://example.test/trailer/starfleet-academy",
+        "airs": {
+          "day": "Wednesday",
+          "time": "03:00",
+          "timezone": "America/Los_Angeles"
+        },
+        "ids": {
+          "trakt": 1002,
+          "tvdb": 450001,
+          "tmdb": 2002,
+          "imdb": "tt31882210",
+          "tvrage": null
+        }
+      }
+    },
+    "people": {
+      "1001": {
+        "cast": [
+          {
+            "person": {
+              "name": "Anson Mount"
+            },
+            "character": "Captain Christopher Pike"
+          },
+          {
+            "person": {
+              "name": "Rebecca Romijn"
+            },
+            "character": "Una Chin-Riley"
+          }
+        ]
+      },
+      "1002": {
+        "cast": [
+          {
+            "person": {
+              "name": "Holly Hunter"
+            },
+            "character": "Academy Chancellor"
+          }
+        ]
+      }
+    },
+    "seasons": {
+      "1001": [
+        {
+          "number": 1,
+          "overview": "Season 1",
+          "rating": 8.0,
+          "votes": 500,
+          "ids": {
+            "trakt": 1101,
+            "tmdb": 2101,
+            "tvdb": 3101
+          }
+        }
+      ],
+      "1002": [
+        {
+          "number": 1,
+          "overview": "Season 1",
+          "rating": 7.5,
+          "votes": 200,
+          "ids": {
+            "trakt": 1102,
+            "tmdb": 2102,
+            "tvdb": 3102
+          }
+        }
+      ]
+    },
+    "episodes": {
+      "1001": {
+        "1": [
+          {
+            "number": 1,
+            "title": "Strange New Worlds",
+            "overview": "The Enterprise begins a new mission.",
+            "rating": 8.6,
+            "votes": 1000,
+            "first_aired": "2022-05-05T00:00:00.000Z",
+            "number_abs": null,
+            "ids": {
+              "trakt": 1201,
+              "tvdb": 3201,
+              "tmdb": 2201,
+              "imdb": "tt15036416"
+            }
+          }
+        ]
+      },
+      "1002": {
+        "1": [
+          {
+            "number": 1,
+            "title": "First Cadet Day",
+            "overview": "New cadets arrive at Starfleet Academy.",
+            "rating": 7.7,
+            "votes": 320,
+            "first_aired": "2026-01-15T00:00:00.000Z",
+            "number_abs": null,
+            "ids": {
+              "trakt": 1202,
+              "tvdb": 3202,
+              "tmdb": 2202,
+              "imdb": "tt31882211"
+            }
+          }
+        ]
+      }
+    }
+  },
+  "tmdb": {
+    "2001": {
+      "poster_path": "/placeholder-poster.png",
+      "backdrop_path": "/placeholder-backdrop.png"
+    },
+    "2002": {
+      "poster_path": "/placeholder-poster.png",
+      "backdrop_path": "/placeholder-backdrop.png"
+    }
+  },
+  "transmission": {
+    "session-get": {
+      "result": "success",
+      "arguments": {}
+    },
+    "torrent-get": {
+      "result": "success",
+      "arguments": {
+        "torrents": [
+          {
+            "id": 1,
+            "name": "Star Trek Strange New Worlds S01E01 1080p WEB-DL",
+            "hashString": "FAKEHASH1234567890FAKEHASH1234567890FAKE",
+            "status": 4,
+            "error": 0,
+            "errorString": "",
+            "eta": 0,
+            "isFinished": false,
+            "isStalled": false,
+            "leftUntilDone": 524288000,
+            "metadataPercentComplete": 1,
+            "percentDone": 0.5,
+            "sizeWhenDone": 1048576000,
+            "rateDownload": 256000,
+            "rateUpload": 32000,
+            "downloadDir": "/downloads/duckietv",
+            "files": [
+              {
+                "name": "Star.Trek.Strange.New.Worlds.S01E01.1080p.WEB-DL.mkv",
+                "length": 1048576000,
+                "bytesCompleted": 524288000
+              }
+            ]
+          }
+        ]
+      }
+    },
+    "torrent-add": {
+      "result": "success",
+      "arguments": {
+        "torrent-added": {
+          "hashString": "FAKEHASH1234567890FAKEHASH1234567890FAKE"
+        }
+      }
+    }
+  }
+}

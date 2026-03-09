@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Services\FavoritesService;
 use App\Services\PosterService;
+use App\Services\SeriesMetaTranslations;
 use App\Services\TraktService;
 use Illuminate\Http\Request;
 
@@ -15,11 +16,14 @@ class SearchController extends Controller
 
     protected PosterService $posters;
 
-    public function __construct(TraktService $trakt, FavoritesService $favorites, PosterService $posters)
+    protected SeriesMetaTranslations $metaTranslations;
+
+    public function __construct(TraktService $trakt, FavoritesService $favorites, PosterService $posters, SeriesMetaTranslations $metaTranslations)
     {
         $this->trakt = $trakt;
         $this->favorites = $favorites;
         $this->posters = $posters;
+        $this->metaTranslations = $metaTranslations;
     }
 
     /**
@@ -53,6 +57,47 @@ class SearchController extends Controller
             'results' => $trending, // Pass trending as results for the initial view
             'query' => null,
             'favoriteIds' => $favoriteIds,
+        ]);
+    }
+
+    /**
+     * Show a single search/trending result in the sidepanel.
+     */
+    public function show(string $traktId)
+    {
+        $show = $this->posters->getCached('show-'.$traktId);
+
+        if (! $show) {
+            $show = $this->trakt->serie($traktId);
+            $show = $this->posters->enrich([$show])[0] ?? $show;
+        } elseif (array_is_list($show)) {
+            $show = $show[0] ?? [];
+        }
+
+        abort_if(empty($show), 404);
+
+        $show['actors'] = collect($show['people']['cast'] ?? [])
+            ->map(fn (array $credit) => $credit['person']['name'] ?? null)
+            ->filter()
+            ->values()
+            ->all();
+
+        $show['translated_day'] = ! empty($show['airs']['day'])
+            ? $this->metaTranslations->translateDayOfWeek($show['airs']['day'])
+            : null;
+        $show['translated_status'] = ! empty($show['status'])
+            ? $this->metaTranslations->translateStatus($show['status'])
+            : null;
+        $show['translated_genres'] = collect($show['genres'] ?? [])
+            ->map(fn (string $genre) => $this->metaTranslations->translateGenre($genre))
+            ->values()
+            ->all();
+
+        $this->posters->cacheResults('show-'.$traktId, [$show]);
+
+        return view('search.show', [
+            'show' => $show,
+            'isFavorite' => in_array($show['trakt_id'] ?? null, $this->favorites->getFavoriteIds(), true),
         ]);
     }
 

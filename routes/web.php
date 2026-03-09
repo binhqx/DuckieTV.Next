@@ -19,6 +19,7 @@ Route::prefix('search')->group(function () {
     Route::get('/', [SearchController::class , 'index'])->name('search.index');
     Route::get('/trending', [SearchController::class , 'index'])->name('search.trending');
     Route::get('/query', [SearchController::class , 'search'])->name('search.query');
+    Route::get('/shows/{traktId}', [SearchController::class , 'show'])->name('search.show');
     Route::post('/add', [SearchController::class , 'add'])->name('search.add');
 });
 
