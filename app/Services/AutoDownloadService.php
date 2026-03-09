@@ -183,7 +183,7 @@ class AutoDownloadService
             return;
         }
 
-        if ($serie->displaycalendar !== 1) {
+        if (! $serie->displaycalendar) {
             $this->logActivity($serie, $episode, $searchString, self::STATUS_AUTODL_DISABLED, ' HC');
             return;
         }
@@ -203,7 +203,7 @@ class AutoDownloadService
             return;
         }
 
-        if ($serie->auto_download === 0) {
+        if (! $serie->autoDownload) {
             $this->logActivity($serie, $episode, $searchString, self::STATUS_AUTODL_DISABLED);
             return;
         }

@@ -3,6 +3,8 @@
 namespace Tests\Unit\Services;
 
 use App\Models\Episode;
+use App\Models\AutoDownloadActivity;
+use App\Models\Season;
 use App\Models\Serie;
 use App\Services\AutoDownloadService;
 use App\Services\FavoritesService;
@@ -114,6 +116,60 @@ class AutoDownloadServiceTest extends TestCase
             $result = $this->invokePrivateMethod($this->service, 'filterKeywords', [$case['name'], $case['require'], $case['ignore'], true, $q]);
             $this->assertEquals($case['expected'], $result, "Failed for: " . $case['name']);
         }
+    }
+
+    public function test_process_episode_respects_boolean_casts_for_calendar_and_autodownload_flags()
+    {
+        $serie = Serie::create([
+            'name' => 'Boolean Cast Show',
+            'trakt_id' => 9001,
+            'tvdb_id' => 9001,
+            'displaycalendar' => true,
+            'autoDownload' => true,
+            'runtime' => 30,
+        ]);
+
+        $season = Season::create([
+            'serie_id' => $serie->id,
+            'seasonnumber' => 1,
+            'trakt_id' => 9101,
+        ]);
+
+        $episode = Episode::create([
+            'serie_id' => $serie->id,
+            'season_id' => $season->id,
+            'episodename' => 'Pilot',
+            'episodenumber' => 1,
+            'seasonnumber' => 1,
+            'firstaired' => now()->subDay()->getTimestampMs(),
+            'trakt_id' => 9201,
+            'downloaded' => 0,
+            'watched' => 0,
+        ]);
+
+        $this->sceneNameMock
+            ->shouldReceive('getSearchStringForEpisode')
+            ->once()
+            ->andReturn('Boolean Cast Show s01e01');
+
+        $this->settingsMock->shouldReceive('get')->with('calendar.show-specials')->andReturn(false);
+        $this->settingsMock->shouldReceive('get')->with('autodownload.delay', 15)->andReturn(15);
+        $this->settingsMock->shouldReceive('get')->with('torrenting.min_seeders', 50)->andReturn(50);
+        $this->settingsMock->shouldReceive('get')->with('torrenting.searchquality', '')->andReturn('');
+        $this->settingsMock->shouldReceive('get')->with('torrenting.ignore_keywords', '')->andReturn('');
+        $this->settingsMock->shouldReceive('get')->with('torrenting.require_keywords', '')->andReturn('');
+        $this->settingsMock->shouldReceive('get')->with('torrenting.global_size_min', 0)->andReturn(0);
+        $this->settingsMock->shouldReceive('get')->with('torrenting.global_size_max', 10000)->andReturn(10000);
+        $this->settingsMock->shouldReceive('get')->with('torrenting.require_keywords_mode_or', true)->andReturn(true);
+
+        $this->searchMock->shouldReceive('search')->once()->andReturn([]);
+
+        $this->invokePrivateMethod($this->service, 'processEpisode', [$episode, true]);
+
+        $activity = AutoDownloadActivity::latest('id')->first();
+        $this->assertNotNull($activity);
+        $this->assertSame(AutoDownloadService::STATUS_NOTHING_FOUND, $activity->status);
+        $this->assertNotSame(' HC', $activity->extra);
     }
 
     /**
